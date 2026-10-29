@@ -1,0 +1,95 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: energia-solar
+nombre: Energía solar e instaladores
+descripcion: "Web limpia a todo el ancho para instaladores solares: soluciones, ayudas, trabajos y estudio gratis."
+sectores:
+  - { id: energia-solar, nombre: Energía solar }
+  - { id: fotovoltaica, nombre: Fotovoltaica }
+  - { id: instaladores, nombre: Instaladores }
+  - { id: climatizacion, nombre: Climatización }
+  - { id: aerotermia, nombre: Aerotermia }
+  - { id: electricistas, nombre: Electricistas }
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: ventajas, nombre: Ventajas }
+  - { id: soluciones, nombre: Soluciones }
+  - { id: proceso, nombre: Cómo trabajamos }
+  - { id: subvenciones, nombre: Ayudas y subvenciones }
+  - { id: zonas, nombre: Zonas de trabajo }
+  - { id: cifras, nombre: Cifras }
+  - { id: trabajos, nombre: Trabajos hechos }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
+  - { id: presupuesto, nombre: Estudio gratis }
+  - { id: contacto, nombre: Contacto }
+estilo: limpio
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-energia-solar.noexpertise.com
+activa: true
+orden: 380
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu empresa"
+    pregunta: "¿Cómo se llama tu empresa y qué instaláis?"
+    ayuda: "Placas solares, baterías, aerotermia, climatización… y en qué zona trabajáis."
+    tipo: texto
+    campos: [nombre, eslogan, seo.titulo, seo.descripcion, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto, secciones.hero.destacado.titulo, secciones.hero.destacado.texto]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde estáis y cómo os pueden llamar o escribir?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Lo que dejes vacío no sale en tu web."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, redes.instagram, redes.facebook]
+  - id: ventajas
+    titulo: "Por qué elegiros"
+    pregunta: "¿Qué gana un cliente al poner placas o aerotermia con vosotros?"
+    tipo: texto
+    campos: [secciones.ventajas.titulo, secciones.ventajas.texto, secciones.ventajas.items]
+  - id: soluciones
+    titulo: "Lo que instaláis"
+    pregunta: "¿Qué instalaciones hacéis? Una por línea, con el precio orientativo si quieres darlo."
+    ayuda: "Si no quieres poner precios, déjalos en blanco: no saldrán."
+    tipo: lista
+    campos: [secciones.soluciones.soluciones]
+  - id: subvenciones
+    titulo: "Ayudas"
+    pregunta: "¿Qué ayudas o bonificaciones tramitáis a vuestros clientes?"
+    ayuda: "Sin cifras que puedan cambiar: basta con decir cuáles son."
+    tipo: texto
+    campos: [secciones.subvenciones.titulo, secciones.subvenciones.texto, secciones.subvenciones.items, secciones.subvenciones.nota]
+  - id: zonas
+    titulo: "Dónde instaláis"
+    pregunta: "¿En qué pueblos, comarcas o barrios trabajáis?"
+    tipo: texto
+    campos: [secciones.zonas.titulo, secciones.zonas.texto, secciones.zonas.items]
+  - id: trabajos
+    titulo: "Trabajos hechos"
+    pregunta: "Cuéntame algunas instalaciones que hayáis hecho: qué, dónde y de cuánta potencia. Una por línea."
+    ayuda: "Las fotos las pones luego en Contenido."
+    tipo: lista
+    campos: [secciones.trabajos.trabajos]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más a menudo antes de instalar? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Si lo prefieres, añádelas luego en Contenido."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon una foto de portada (un tejado con placas queda muy bien) y, si quieres, alguna más."
+    ayuda: "Sube las tuyas o elige una del banco. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.imagen, secciones.subvenciones.imagen, secciones.zonas.imagen, secciones.contacto.imagen]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso

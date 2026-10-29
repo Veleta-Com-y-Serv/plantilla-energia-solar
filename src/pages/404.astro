@@ -1,0 +1,26 @@
+---
+// Página no encontrada con el diseño de la plantilla: banda verde noche a todo el ancho con rejilla de celdas
+// y un sol que se ha puesto (medio disco en el horizonte).
+import Base from '../layouts/Base.astro';
+---
+
+<Base titulo="Página no encontrada">
+  <section class="error banda-noche celdas">
+    <div class="contenedor error-cuerpo">
+      <p class="antetitulo">Error 404</p>
+      <p class="error-numero" aria-hidden="true">404</p>
+      <h1 class="titulo-seccion">Aquí no da el sol</h1>
+      <p class="mt-5 max-w-xl text-lg opacity-85">Puede que el enlace esté mal o que la página se haya movido.</p>
+      <p class="mt-9"><a class="btn" href="/">Volver al inicio</a></p>
+    </div>
+    <div class="error-sol" aria-hidden="true"></div>
+  </section>
+</Base>
+
+<style>
+  .error { position: relative; overflow: hidden; min-height: 78svh; display: flex; align-items: center; padding-block: 5rem 9rem; }
+  .error-cuerpo { position: relative; z-index: 1; }
+  .error-numero { margin-top: 1rem; font-family: var(--fuente-titulos); font-weight: 800; font-size: clamp(6rem, 30vw, 15rem); line-height: .85; letter-spacing: -0.06em; color: var(--c-acento); }
+  .error-sol { position: absolute; left: 50%; bottom: 0; width: min(40rem, 90vw); aspect-ratio: 2 / 1; transform: translate(-10%, 0); border-radius: 999px 999px 0 0; background: var(--c-acento); opacity: .18; }
+  @media (min-width: 1024px) { .error-sol { opacity: .9; transform: translate(20%, 0); } }
+</style>

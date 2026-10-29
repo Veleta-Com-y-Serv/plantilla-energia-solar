@@ -1,0 +1,94 @@
+---
+// Portada a sangre (92 svh): foto de tejado con placas, velo verde noche desde la izquierda, título enorme,
+// texto, `cta` y `cta_secundario`; a la derecha, el `destacado` en un sol amarillo con halos (en móvil, un sello
+// redondeado). Abajo, `items` (titulo, icono) como garantías en fila. El borde inferior es un horizonte curvo.
+// Sin foto, la banda queda en verde noche con la rejilla de celdas. Campos vacíos: no se pintan.
+import { seccion } from '../../data/site';
+import { altHero } from '../../lib/seo';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const puntos = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={id} class:list={['hero-solar banda-noche', { celdas: !s.imagen }]}>
+      {s.imagen && (
+        <Imagen src={s.imagen} alt={altHero()} ancho={1920} alto={1080} prioridad={primera} class="hero-foto" />
+      )}
+      <div class="hero-velo" aria-hidden="true" />
+      <div class="hero-anillo" aria-hidden="true" />
+      <div class="contenedor hero-cuerpo">
+        <div class="hero-texto">
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h1 class="hero-titulo">{s.titulo}</h1>}
+          {s.texto && <p class="hero-parrafo">{s.texto}</p>}
+          {(s.cta || s.cta_secundario) && (
+            <div class="mt-9 flex flex-wrap gap-3">
+              {s.cta && (
+                <a class="btn" href={s.cta.url}>
+                  {s.cta.texto}
+                  <Icono nombre="flecha" tam={20} class="flecha" />
+                </a>
+              )}
+              {s.cta_secundario && <a class="btn-sec" href={s.cta_secundario.url}>{s.cta_secundario.texto}</a>}
+            </div>
+          )}
+        </div>
+        {s.destacado && (
+          <div class="hero-sello">
+            <Icono nombre="sol" tam={34} class="hero-sello-icono" />
+            <div>
+              {s.destacado.titulo && <p class="hero-sello-titulo">{s.destacado.titulo}</p>}
+              {s.destacado.texto && <p class="hero-sello-texto">{s.destacado.texto}</p>}
+            </div>
+          </div>
+        )}
+      </div>
+      {puntos.length > 0 && (
+        <div class="contenedor">
+          <ul class="hero-puntos">
+            {puntos.map((it) => (
+              <li>
+                <Icono nombre={it.icono || 'check'} tam={22} class="shrink-0 text-acento" />
+                {it.titulo}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
+
+<style>
+  .hero-solar { position: relative; isolation: isolate; overflow: hidden; min-height: 92svh; display: flex; flex-direction: column; justify-content: flex-end; padding: calc(var(--alto-cabecera) + 3rem) 0 clamp(5rem, 10vw, 8.5rem); clip-path: ellipse(190% 100% at 50% 0); }
+  @media (min-width: 1024px) { .hero-solar { clip-path: ellipse(125% 100% at 50% 0); } }
+  .hero-solar :global(.hero-foto) { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; }
+  .hero-velo { position: absolute; inset: 0; z-index: -2; background:
+      linear-gradient(to top, color-mix(in srgb, var(--noche-2) 85%, transparent) 0%, color-mix(in srgb, var(--noche-2) 35%, transparent) 55%, color-mix(in srgb, var(--noche-2) 55%, transparent) 100%); }
+  @media (min-width: 1024px) {
+    .hero-velo { background:
+        linear-gradient(95deg, color-mix(in srgb, var(--noche-2) 90%, transparent) 0%, color-mix(in srgb, var(--noche-2) 62%, transparent) 48%, color-mix(in srgb, var(--noche-2) 10%, transparent) 100%),
+        linear-gradient(to top, color-mix(in srgb, var(--noche-2) 50%, transparent), transparent 40%); }
+  }
+  .hero-anillo { position: absolute; z-index: -1; width: min(70rem, 120vw); aspect-ratio: 1; right: -30vw; top: -35%; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--c-acento) 35%, transparent); box-shadow: 0 0 0 4rem color-mix(in srgb, var(--c-acento) 4%, transparent), 0 0 0 8rem color-mix(in srgb, var(--c-acento) 3%, transparent); pointer-events: none; }
+  .hero-cuerpo { display: grid; gap: 2.5rem; align-items: end; }
+  @media (min-width: 1024px) { .hero-cuerpo { grid-template-columns: minmax(0, 1fr) auto; gap: 4rem; } }
+  .hero-titulo { margin-top: 1.25rem; font-size: clamp(2.75rem, 8.4vw, 7rem); line-height: .95; letter-spacing: -0.05em; max-width: 13ch; text-wrap: balance; }
+  .hero-parrafo { margin-top: 1.5rem; font-size: clamp(1.1rem, 1.6vw, 1.35rem); max-width: 38rem; opacity: .92; }
+  .hero-sello { display: flex; gap: 1rem; align-items: center; max-width: 30rem; padding: 1.1rem 1.25rem; border-radius: 1.25rem; background: var(--c-acento); color: var(--sobre-acento); box-shadow: 0 0 0 .45rem color-mix(in srgb, var(--c-acento) 25%, transparent); }
+  .hero-sello :global(.hero-sello-icono) { flex-shrink: 0; }
+  .hero-sello-titulo { font-family: var(--fuente-titulos); font-weight: 800; font-size: 1.3rem; line-height: 1.1; letter-spacing: -0.03em; }
+  .hero-sello-texto { margin-top: .3rem; font-size: .95rem; line-height: 1.4; }
+  @media (min-width: 1024px) {
+    .hero-sello { flex-direction: column; justify-content: center; text-align: center; width: 17.5rem; height: 17.5rem; max-width: none; padding: 2.25rem; border-radius: 50%; margin: 0 2.5rem 1rem 0;
+      box-shadow: 0 0 0 1.1rem color-mix(in srgb, var(--c-acento) 28%, transparent), 0 0 0 2.4rem color-mix(in srgb, var(--c-acento) 12%, transparent); }
+    .hero-sello-titulo { font-size: 1.6rem; }
+  }
+  .hero-puntos { display: flex; flex-wrap: wrap; gap: .85rem 2.25rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid color-mix(in srgb, currentColor 22%, transparent); }
+  .hero-puntos li { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; }
+</style>

@@ -1,0 +1,88 @@
+---
+// Trabajos: titular en banda clara y, debajo, mosaico de fotos de borde a borde sin márgenes.
+// `trabajos: [{titulo, texto, lugar, potencia, imagen, imagen_antes}]`. En escritorio (4 columnas) el primero de
+// cada grupo de seis ocupa 2×2 y el sexto, una franja ancha; en tableta, 2 columnas; en móvil, uno debajo de otro.
+// El pie de cada foto lleva lugar y `potencia` («6,5 kWp», opcional) en píldoras, título y texto.
+// `imagen_antes` es opcional: si la hay, se ve en pequeño en la esquina («Antes», `etiqueta_antes`).
+// Sin foto, la tesela queda en verde noche con la rejilla de celdas.
+import { seccion } from '../../data/site';
+import { altFicha } from '../../lib/seo';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const lista = s ? s.trabajos.filter((t) => t && t.titulo) : [];
+const antes = (s?.etiqueta_antes as string) || 'Antes';
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="banda-clara trabajos">
+      <div class="contenedor trabajos-cabeza">
+        <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto}>
+          {s.cta && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+        </Titular>
+      </div>
+      {lista.length > 0 && (
+        <ul class="mosaico">
+          {lista.map((t) => (
+            <li class:list={['tesela', { 'tesela--vacia celdas': !t.imagen }]}>
+              {t.imagen && <Imagen src={t.imagen} alt={altFicha(t)} ancho={1200} alto={900} class="tesela-foto" />}
+              {t.imagen_antes && t.imagen && (
+                <figure class="tesela-antes">
+                  <Imagen src={t.imagen_antes} alt={`${t.titulo}: ${antes.toLowerCase()}`} ancho={320} alto={240} />
+                  <figcaption>{antes}</figcaption>
+                </figure>
+              )}
+              <div class="tesela-pie">
+                {(t.lugar || t.potencia) && (
+                  <p class="flex flex-wrap gap-2">
+                    {t.lugar && <span class="pildora"><Icono nombre="mapa" tam={15} />{t.lugar}</span>}
+                    {t.potencia && <span class="pildora pildora--sol"><Icono nombre="rayo" tam={15} />{t.potencia}</span>}
+                  </p>
+                )}
+                <h3 class="tesela-titulo">{t.titulo}</h3>
+                {t.texto && <p class="tesela-texto">{t.texto}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )
+}
+
+<style>
+  .trabajos-cabeza { padding-top: var(--ritmo); }
+  @media (min-width: 768px) { .trabajos-cabeza { padding-top: var(--ritmo-md); } }
+  .trabajos:not(:has(.mosaico)) { padding-bottom: var(--ritmo); }
+  .mosaico { display: grid; grid-template-columns: 1fr; }
+  .tesela { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-end; min-height: 19rem; background: var(--noche); color: #ffffff; }
+  .tesela--vacia { color: var(--sobre-noche); }
+  .tesela :global(.tesela-foto) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .tesela:hover :global(.tesela-foto) { transform: scale(1.04); }
+  .tesela::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, color-mix(in srgb, var(--noche-2) 92%, transparent) 0%, color-mix(in srgb, var(--noche-2) 45%, transparent) 45%, transparent 75%); }
+  .tesela-pie { padding: 1.5rem 1rem 1.6rem; width: 100%; }
+  @media (min-width: 768px) { .tesela-pie { padding: 1.75rem 2rem 2rem; } }
+  .tesela-titulo { margin-top: .85rem; font-size: 1.45rem; }
+  .tesela-texto { margin-top: .4rem; max-width: 34rem; font-size: .98rem; opacity: .9; }
+  .pildora { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .7rem; border-radius: 999px; font-size: .82rem; font-weight: 700; background: color-mix(in srgb, #ffffff 16%, transparent); backdrop-filter: blur(6px); }
+  .pildora--sol { background: var(--c-acento); color: var(--sobre-acento); }
+  .tesela-antes { position: absolute; top: 1rem; right: 1rem; width: 7.5rem; margin: 0; border-radius: .75rem; overflow: hidden; border: 3px solid #ffffff; box-shadow: 0 10px 20px -10px rgb(0 0 0 / .5); }
+  .tesela-antes :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .tesela-antes figcaption { position: absolute; left: 0; bottom: 0; padding: .1rem .45rem; font-size: .7rem; font-weight: 800; background: var(--noche); color: var(--sobre-noche); border-top-right-radius: .5rem; }
+  @media (min-width: 768px) {
+    .mosaico { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 24rem; }
+    .tesela { min-height: 0; }
+    .tesela:nth-child(6n + 1), .tesela:nth-child(6n + 6) { grid-column: span 2; }
+  }
+  @media (min-width: 1100px) {
+    .mosaico { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 21rem; grid-auto-flow: dense; }
+    .tesela:nth-child(6n + 1) { grid-column: span 2; grid-row: span 2; }
+    .tesela:nth-child(6n + 1) .tesela-titulo { font-size: clamp(1.8rem, 2.6vw, 2.6rem); }
+    .tesela:nth-child(6n + 6) { grid-column: span 4; }
+    .tesela:nth-child(6n + 2), .tesela:nth-child(6n + 3), .tesela:nth-child(6n + 4), .tesela:nth-child(6n + 5) { grid-column: span 1; }
+    .tesela:nth-child(6n + 2) .tesela-texto, .tesela:nth-child(6n + 3) .tesela-texto, .tesela:nth-child(6n + 4) .tesela-texto, .tesela:nth-child(6n + 5) .tesela-texto { display: none; }
+  }
+</style>

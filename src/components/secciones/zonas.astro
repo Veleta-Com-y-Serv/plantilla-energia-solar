@@ -1,0 +1,48 @@
+---
+// Zonas: fila partida a sangre con la foto a la DERECHA (zigzag con `subvenciones`). Titular, `texto` (radio de
+// trabajo), `items: [{titulo}]` como píldoras (la primera, rellena) y `cta`. Sin imagen, banda clara a todo el ancho.
+import { seccion } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class:list={['banda-clara', s.imagen ? 'partida partida--derecha' : 'seccion']}>
+      {s.imagen && (
+        <div class="partida-foto">
+          <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1000} />
+          <span class="zonas-pin" aria-hidden="true"><Icono nombre="mapa" tam={34} /></span>
+        </div>
+      )}
+      <div class:list={[s.imagen ? 'partida-texto' : 'contenedor']}>
+        <div>
+          <Titular class="!mb-9" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {items.length > 0 && (
+            <ul class="flex flex-wrap gap-2.5">
+              {items.map((it) => (
+                <li class="zona">{it.titulo}</li>
+              ))}
+            </ul>
+          )}
+          {s.cta && (
+            <p class="mt-9">
+              <a class="btn" href={s.cta.url}>{s.cta.texto}</a>
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .zona { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .45rem 1.1rem; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--c-primario) 45%, transparent); font-weight: 700; }
+  .zona:first-child { background: var(--c-primario); color: var(--sobre-primario); border-color: var(--c-primario); }
+  .zonas-pin { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 5rem; height: 5rem; transform: translate(-50%, -50%); border-radius: 50%; background: var(--c-acento); color: var(--sobre-acento); box-shadow: 0 0 0 1rem color-mix(in srgb, var(--c-acento) 35%, transparent), 0 0 0 2.25rem color-mix(in srgb, var(--c-acento) 16%, transparent); }
+</style>

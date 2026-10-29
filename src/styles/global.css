@@ -1,0 +1,159 @@
+/* Energía solar e instaladores — estilo limpio: verde + amarillo sol + blanco, a todo el ancho.
+   Motivos propios: el sol (disco amarillo con halos), el horizonte (bordes curvos en la portada y el pie)
+   y la celda fotovoltaica (rejilla fina sobre las bandas oscuras). Titulares en sans de sistema muy pesada,
+   en minúscula y con interletrado cerrado; antetítulos en mayúsculas espaciadas con una raya de color.
+   Los cuatro colores vienen de site.yaml (--c-primario, --c-acento, --c-fondo, --c-texto); todo lo demás
+   se deriva con color-mix, así el diseño aguanta que el cliente los cambie. */
+@import "tailwindcss";
+@import "./comun.css";
+@config "../../tailwind.config.mjs";
+
+:root {
+  --fuente-texto: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fuente-titulos: "Segoe UI Variable Display", "SF Pro Display", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radio: .9rem; --ritmo: 4.5rem; --ritmo-md: 7rem; --ancho: 90rem;
+  --alto-cabecera: 4.5rem;
+  /* Derivados */
+  --noche: color-mix(in srgb, var(--c-primario) 32%, var(--c-texto));
+  --noche-2: color-mix(in srgb, var(--c-primario) 18%, var(--c-texto));
+  --menta: color-mix(in srgb, var(--c-primario) 8%, var(--c-fondo));
+  --linea: color-mix(in srgb, var(--c-texto) 14%, transparent);
+  /* Letra sobre cada color: oscura si el color es claro, blanca si es oscuro (oklch, con respaldo). */
+  --sobre-primario: #ffffff;
+  --sobre-acento: var(--c-texto);
+  --sobre-noche: #ffffff;
+}
+@supports (color: oklch(from red l c h)) {
+  :root {
+    --sobre-primario: oklch(from var(--c-primario) clamp(0, (0.66 - l) * 100, 1) 0 0);
+    --sobre-acento: oklch(from var(--c-acento) clamp(0, (0.66 - l) * 100, 1) 0 0);
+    --sobre-noche: oklch(from var(--noche) clamp(0, (0.66 - l) * 100, 1) 0 0);
+  }
+}
+
+@layer base {
+  body { font-family: var(--fuente-texto); font-size: 1.0625rem; line-height: 1.6; background: var(--c-fondo); }
+  h1, h2, h3 { font-family: var(--fuente-titulos); font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+  h3 { letter-spacing: -0.015em; line-height: 1.15; }
+  html { scroll-padding-top: calc(var(--alto-cabecera) + 1rem); }
+  :focus-visible { outline: 3px solid var(--c-primario); outline-offset: 3px; }
+}
+
+@layer components {
+  /* ── Bandas (todas de borde a borde; cada una fija su botón y su raya) ── */
+  .banda-clara { background: var(--c-fondo); color: var(--c-texto); --boton: var(--c-primario); --sobre-boton: var(--sobre-primario); --raya: var(--c-primario); }
+  .banda-menta { background: var(--menta); color: var(--c-texto); --boton: var(--c-primario); --sobre-boton: var(--sobre-primario); --raya: var(--c-primario); }
+  .banda-noche { background: var(--noche); color: var(--sobre-noche); --boton: var(--c-acento); --sobre-boton: var(--sobre-acento); --raya: var(--c-acento); }
+  .banda-verde { background: var(--c-primario); color: var(--sobre-primario); --boton: var(--c-acento); --sobre-boton: var(--sobre-acento); --raya: var(--c-acento); }
+  .banda-sol { background: var(--c-acento); color: var(--sobre-acento); --boton: var(--noche); --sobre-boton: var(--sobre-noche); --raya: var(--sobre-acento); }
+  .banda-noche :focus-visible, .banda-verde :focus-visible { outline-color: var(--c-acento); }
+  .banda-sol :focus-visible { outline-color: currentColor; }
+  /* Celda fotovoltaica: rejilla fina sobre las bandas oscuras. */
+  .celdas {
+    background-image:
+      linear-gradient(color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, currentColor 7%, transparent) 1px, transparent 1px);
+    background-size: 72px 44px;
+    background-position: -1px -1px;
+  }
+
+  /* ── Titulares ── */
+  .antetitulo { display: inline-flex; align-items: center; gap: .75rem; font-size: .78rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .antetitulo::before { content: ""; flex-shrink: 0; width: 2.25rem; height: 3px; border-radius: 3px; background: var(--raya, var(--c-primario)); }
+  .titulo-seccion { font-size: clamp(2.15rem, 5.6vw, 4.4rem); margin-top: 1rem; }
+  .titular { margin-bottom: 3rem; }
+  .titular--centro { margin-inline: auto; text-align: center; max-width: 52rem; }
+  .titular--centro .antetitulo { justify-content: center; }
+  .titular-texto { margin-top: 1.1rem; font-size: 1.15rem; max-width: 40rem; opacity: .82; }
+  .titular--centro .titular-texto { margin-inline: auto; }
+  /* Titular partido: título a la izquierda, texto (y botón) a la derecha desde 1024 px. */
+  .titular-partido { display: grid; gap: 1.25rem; margin-bottom: 3.25rem; }
+  .titular-partido .titulo-seccion { max-width: 16ch; }
+  .titular-partido-lado { display: grid; gap: 1.25rem; align-content: end; justify-items: start; }
+  .titular-partido-lado p { font-size: 1.15rem; opacity: .82; max-width: 34rem; }
+  @media (min-width: 1024px) { .titular-partido { grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4.5rem; } }
+
+  /* ── Botones píldora ── */
+  .btn, .btn-sec { border-radius: 999px; font-weight: 800; font-size: 1rem; min-height: 3.1rem; padding-inline: 1.6rem; letter-spacing: -0.005em; }
+  .btn { background: var(--boton, var(--c-primario)); color: var(--sobre-boton, var(--sobre-primario)); border: 2px solid var(--boton, var(--c-primario)); }
+  .btn:hover { background: color-mix(in srgb, var(--boton, var(--c-primario)) 86%, var(--c-texto)); }
+  .btn-sec { border: 2px solid color-mix(in srgb, currentColor 55%, transparent); }
+  .btn-sec:hover { border-color: currentColor; background: color-mix(in srgb, currentColor 8%, transparent); }
+  .btn .flecha { transition: transform .15s ease; }
+  .btn:hover .flecha { transform: translateX(3px); }
+
+  /* ── Iconos en disco (el sol) ── */
+  .disco { display: inline-grid; place-items: center; flex-shrink: 0; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--c-acento); color: var(--sobre-acento); box-shadow: 0 0 0 .45rem color-mix(in srgb, var(--c-acento) 22%, transparent); }
+  .disco--pequeno { width: 2.4rem; height: 2.4rem; box-shadow: 0 0 0 .3rem color-mix(in srgb, var(--c-acento) 22%, transparent); }
+
+  /* ── Filas partidas a sangre (la foto toca el borde de la ventana) ── */
+  .partida { display: grid; }
+  .partida-foto { position: relative; min-height: 18rem; overflow: hidden; background: var(--noche); }
+  .partida-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .partida-texto { padding: var(--ritmo) 1rem; min-width: 0; }
+  @media (min-width: 768px) { .partida-texto { padding: var(--ritmo-md) 2rem; } .partida-foto { min-height: 26rem; } }
+  @media (min-width: 1024px) {
+    .partida { grid-template-columns: 1fr 1fr; }
+    .partida-foto { min-height: 100%; }
+    .partida-texto { padding-inline: clamp(2.5rem, 5vw, 6rem); }
+    .partida-texto > * { max-width: 40rem; }
+    .partida--derecha .partida-foto { order: 2; }
+  }
+
+  /* ── Cabecera fija: transparente sobre la portada y sólida al bajar ── */
+  .cabecera-solar { position: fixed; inset: 0 0 auto 0; z-index: 50; color: var(--c-texto); background: var(--c-fondo); border-bottom: 1px solid var(--linea); transition: background-color .25s ease, color .25s ease, box-shadow .25s ease; --boton: var(--c-primario); --sobre-boton: var(--sobre-primario); }
+  .cabecera-solar[data-sobre]:not(.solida):not(.abierta) { background: linear-gradient(to bottom, color-mix(in srgb, var(--noche-2) 70%, transparent), transparent); border-bottom-color: transparent; color: #ffffff; --boton: var(--c-acento); --sobre-boton: var(--sobre-acento); }
+  .cabecera-solar[data-sobre]:not(.solida):not(.abierta) :focus-visible { outline-color: var(--c-acento); }
+  .cabecera-solar.solida { box-shadow: 0 10px 30px -18px rgb(0 0 0 / .35); }
+  .cabecera-hueco { height: var(--alto-cabecera); }
+  .cabecera-solar .cabecera-fila { min-height: var(--alto-cabecera); gap: 1.25rem; }
+  .marca-sol { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; flex-shrink: 0; border-radius: 50%; background: var(--c-acento); color: var(--sobre-acento); font-family: var(--fuente-titulos); font-weight: 900; font-size: 1.05rem; box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-acento) 30%, transparent); }
+  .cabecera-solar .marca-nombre { font-family: var(--fuente-titulos); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
+  .cabecera-solar .cabecera-nav { gap: 1.75rem; }
+  .cabecera-solar .cabecera-nav a { font-weight: 650; font-size: .96rem; padding-block: .4rem; background: linear-gradient(var(--c-acento), var(--c-acento)) left bottom / 0 3px no-repeat; transition: background-size .2s ease; }
+  .cabecera-solar .cabecera-nav a:hover { background-size: 100% 3px; }
+  .cabecera-tel { display: none; align-items: center; gap: .45rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+  @media (min-width: 1180px) { .cabecera-tel { display: inline-flex; } }
+  .cabecera-solar .cabecera-cta { min-height: 2.75rem; padding-inline: 1.25rem; font-size: .95rem; }
+  .cabecera-solar .menu-movil summary { min-height: 2.75rem; padding: .5rem .95rem; border-radius: 999px; border: 2px solid color-mix(in srgb, currentColor 40%, transparent); font-weight: 800; }
+  .cabecera-solar .menu-movil-panel { padding: .5rem 1rem 1.25rem; box-shadow: 0 24px 40px -20px rgb(0 0 0 / .4); border-top: 1px solid var(--linea); --boton: var(--c-primario); --sobre-boton: var(--sobre-primario); }
+  .cabecera-solar .menu-movil-panel a { padding: .95rem 0; font-weight: 700; font-size: 1.1rem; }
+  .cabecera-solar .menu-movil-panel .btn { padding-block: .65rem; }
+
+  /* ── Formularios ── */
+  .campo label { font-size: .85rem; font-weight: 700; }
+  .campo input, .campo textarea, .campo select { width: 100%; font: inherit; color: var(--c-texto); background: var(--c-fondo); padding: .8rem 1rem; min-height: 3rem; border: 1.5px solid color-mix(in srgb, var(--c-texto) 22%, transparent); border-radius: .75rem; }
+  .campo select { appearance: auto; }
+  .campo input:focus, .campo textarea:focus, .campo select:focus { border-color: var(--c-primario); outline: 3px solid color-mix(in srgb, var(--c-primario) 35%, transparent); outline-offset: 0; }
+  .campo-doble { display: grid; gap: 1rem; }
+  @media (min-width: 640px) { .campo-doble { grid-template-columns: 1fr 1fr; } }
+  .formulario .btn { justify-self: stretch; }
+  @media (min-width: 640px) { .formulario .btn { justify-self: start; } }
+
+  /* ── Pie: horizonte curvo arriba, verde noche ── */
+  .pie-solar { position: relative; padding-top: 0; }
+  .pie-curva { display: block; width: 100%; height: clamp(2rem, 6vw, 5rem); color: var(--noche); }
+  .pie-solar .pie-cuerpo { background: var(--noche); color: var(--sobre-noche); padding-top: 2rem; margin-top: -1px; --raya: var(--c-acento); }
+  .pie-solar .pie-cuerpo :focus-visible { outline-color: var(--c-acento); }
+  .pie-solar .pie-rejilla { gap: 2.5rem 1.5rem; grid-template-columns: 1fr 1fr; }
+  .pie-solar .pie-rejilla > :nth-child(-n + 2) { grid-column: 1 / -1; }
+  @media (min-width: 768px) { .pie-solar .pie-rejilla > :nth-child(-n + 2) { grid-column: auto; } }
+  @media (min-width: 1100px) { .pie-solar .pie-rejilla { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+  .pie-solar .pie-nombre { font-family: var(--fuente-titulos); font-weight: 800; font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: -0.035em; display: flex; align-items: center; gap: .75rem; }
+  .pie-solar .pie-titulo { color: var(--c-acento); opacity: 1; font-weight: 800; letter-spacing: .16em; }
+  .pie-telefono { display: inline-block; margin-top: 1.25rem; font-family: var(--fuente-titulos); font-weight: 800; letter-spacing: -0.03em; font-size: clamp(1.75rem, 5vw, 2.6rem); text-decoration: none; color: var(--c-acento); }
+  .pie-solar .pie-legal { border-top-color: color-mix(in srgb, currentColor 18%, transparent); }
+
+  /* ── Barra inferior fija (móvil): Llamar y WhatsApp ── */
+  .barra-movil { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: .5rem; padding: .5rem 1rem calc(.5rem + env(safe-area-inset-bottom)); background: var(--noche); box-shadow: 0 -8px 24px -12px rgb(0 0 0 / .4); }
+  .barra-movil a { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3rem; border-radius: 999px; font-weight: 800; text-decoration: none; }
+  .barra-movil-llamar { background: var(--c-acento); color: var(--sobre-acento); }
+  .barra-movil-whatsapp { background: transparent; color: var(--sobre-noche); border: 2px solid color-mix(in srgb, var(--sobre-noche) 45%, transparent); }
+  body:has(.barra-movil) .pie-cuerpo { padding-bottom: 4.25rem; }
+  @media (min-width: 768px) {
+    .barra-movil { display: none; }
+    body:has(.barra-movil) .pie-cuerpo { padding-bottom: 0; }
+  }
+
+  .texto-largo h2 { font-size: 1.4rem; letter-spacing: -0.02em; }
+}

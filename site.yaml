@@ -1,0 +1,186 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Una sola página: el menú apunta a anclas (#id-de-sección).
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas planas: nunca una lista dentro de un elemento de lista. Precios y cifras, siempre entre comillas.
+nombre: Solana Ponent
+eslogan: Placas solares, baterías y aerotermia en Lleida y el Segrià. Instaladores propios, de aquí.
+sector: energia-solar
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = sol + nombre en texto.
+colores:
+  primario: "#0f7a4d"   # verde (botones en bandas claras, banda de cifras, detalles)
+  acento: "#ffc83d"     # amarillo sol (botones en bandas oscuras, banda de proceso, sellos)
+  fondo: "#ffffff"
+  texto: "#0c1f17"      # letra y base de las bandas oscuras (mezclado con el verde)
+contacto:
+  telefono: "973 55 21 40"
+  email: hola@solanaponent.es
+  direccion: "Calle de la Energía 12, Polígono El Segre, 25191 Lleida"
+  horario: "Lunes a viernes, de 8:00 a 18:30. Sábados, de 9:00 a 13:00."
+  whatsapp: "+34 644 27 91 08"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: https://www.facebook.com/
+  linkedin: ""
+menu:
+  - { texto: Soluciones, url: "/#soluciones" }
+  - { texto: Ayudas, url: "/#subvenciones" }
+  - { texto: Trabajos, url: "/#trabajos" }
+  - { texto: Preguntas, url: "/#preguntas" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Estudio gratis, url: "/#presupuesto" }
+seo:
+  titulo: Solana Ponent · Placas solares y aerotermia en Lleida
+  descripcion: "Instalación de placas solares, baterías, aerotermia y cargadores en Lleida y el Segrià. Estudio gratis con tu factura y ayudas tramitadas."
+  tipo: HomeAndConstructionBusiness
+marca_pie: true
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Energía solar en Lleida y el Segrià
+    titulo: Que tu tejado trabaje para ti
+    texto: "Placas solares, baterías y aerotermia para casas, naves y granjas. Te hacemos el estudio con tu factura y te lo dejamos todo legalizado."
+    imagen: /fotos/hero.jpg
+    destacado: { titulo: Estudio gratis en 48 h, texto: "Mándanos una foto de tu factura y te decimos cuánto puedes ahorrar." }
+    cta: { texto: Pide tu estudio gratis, url: "/#presupuesto" }
+    cta_secundario: { texto: Ver soluciones, url: "/#soluciones" }
+    items:
+      - { titulo: Instaladores propios, icono: herramienta }
+      - { titulo: Legalización incluida, icono: documento }
+      - { titulo: Garantía por escrito, icono: escudo }
+
+  ventajas:
+    activa: true
+    antetitulo: Por qué pasarte al sol
+    titulo: Menos factura, más tranquilidad
+    texto: "En Ponent tenemos sol casi todo el año. Aprovecharlo es la forma más sencilla de bajar lo que pagas de luz."
+    items:
+      - { titulo: Ahorro desde el primer mes, texto: "Consumes tu propia energía de día y pagas menos a la compañía.", icono: euro }
+      - { titulo: Sin papeleo para ti, texto: "Proyecto, boletín, permisos del ayuntamiento y alta de excedentes.", icono: documento }
+      - { titulo: Energía limpia y de aquí, texto: "Producida en tu propio tejado, sin humos ni ruidos.", icono: hoja }
+      - { titulo: Tu casa vale más, texto: "Mejor certificado energético y una instalación que dura décadas.", icono: casa }
+
+  soluciones:
+    activa: true
+    antetitulo: Soluciones
+    titulo: Una instalación para cada tejado
+    texto: "Lo dimensionamos con tus consumos reales. Ni placas de más ni de menos."
+    cta: { texto: Pide tu estudio, url: "/#presupuesto" }
+    soluciones:
+      - { titulo: Autoconsumo en vivienda, texto: "Placas en tejado o pérgola para casas y adosados, con compensación de excedentes.", icono: panel, precio: "desde 4.900 €" }
+      - { titulo: Baterías, texto: "Guarda la energía del mediodía y úsala por la noche.", icono: bateria, precio: "desde 3.200 €" }
+      - { titulo: Naves y empresas, texto: "Instalaciones para almacenes, talleres y cámaras frigoríficas.", icono: fabrica, precio: "Consultar" }
+      - { titulo: Granjas y riego, texto: "Bombeo solar y autoconsumo para granjas, balsas y fincas de frutal.", icono: gota, precio: "" }
+      - { titulo: Aerotermia, texto: "Calefacción y agua caliente con bomba de calor. Combina perfecta con las placas.", icono: ventilador, precio: "desde 7.500 €" }
+      - { titulo: Climatización, texto: "Aire acondicionado y bomba de calor por conductos o splits.", icono: copo, precio: "desde 1.100 €" }
+      - { titulo: Cargador de coche, texto: "Punto de carga en tu garaje, conectado a tus placas.", icono: coche, precio: "desde 890 €" }
+      - { titulo: Mantenimiento, texto: "Limpieza de placas, revisión del inversor y seguimiento de la producción.", icono: herramienta, precio: "desde 120 €/año" }
+
+  proceso:
+    activa: true
+    antetitulo: Cómo trabajamos
+    titulo: Del estudio al ahorro
+    texto: "Un solo interlocutor de principio a fin. Tú solo tienes que decir que sí."
+    items:
+      - { titulo: Estudio gratis, texto: "Con tu factura y una foto del tejado calculamos la instalación y el ahorro.", icono: grafico }
+      - { titulo: Proyecto y ayudas, texto: "Preparamos el proyecto, pedimos los permisos y tramitamos las bonificaciones.", icono: documento }
+      - { titulo: Instalación, texto: "Nuestro equipo monta las placas en uno o dos días en una vivienda.", icono: panel }
+      - { titulo: Ahorro y seguimiento, texto: "Ves la producción en el móvil y te avisamos si algo no va bien.", icono: sol }
+
+  subvenciones:
+    activa: true
+    antetitulo: Ayudas y bonificaciones
+    titulo: Te tramitamos las ayudas
+    texto: "Revisamos qué ayudas hay abiertas para tu caso y presentamos la documentación por ti."
+    imagen: /fotos/subvenciones.jpg
+    items:
+      - { titulo: Deducción en el IRPF, texto: "Por mejorar la eficiencia energética de tu vivienda, si cumples los requisitos." }
+      - { titulo: Bonificación del IBI, texto: "Muchos ayuntamientos rebajan el IBI durante varios años. Te decimos si el tuyo lo hace." }
+      - { titulo: Bonificación del ICIO, texto: "Rebaja en el impuesto de la licencia de obras en los municipios que la aplican." }
+      - { titulo: Ayudas autonómicas, texto: "Cuando hay convocatoria abierta, preparamos y presentamos la solicitud." }
+    nota: "Las ayudas cambian cada año: en el estudio te decimos cuáles puedes pedir hoy."
+    cta: { texto: Consultar mi caso, url: "/#presupuesto" }
+
+  zonas:
+    activa: true
+    antetitulo: Dónde instalamos
+    titulo: Lleida y todo el Segrià
+    texto: "También en el Pla d'Urgell, la Noguera y les Garrigues. Si tu pueblo no está, pregúntanos."
+    imagen: /fotos/zonas.jpg
+    items:
+      - { titulo: Lleida }
+      - { titulo: Alcarràs }
+      - { titulo: Torrefarrera }
+      - { titulo: Alpicat }
+      - { titulo: Almacelles }
+      - { titulo: Alguaire }
+      - { titulo: Seròs }
+      - { titulo: Mollerussa }
+      - { titulo: Balaguer }
+      - { titulo: "Bell-lloc d'Urgell" }
+      - { titulo: Les Borges Blanques }
+      - { titulo: Tàrrega }
+
+  cifras:
+    activa: true
+    antetitulo: En números
+    titulo: Sol de Ponent, bien aprovechado
+    items:
+      - { titulo: "+450", texto: instalaciones hechas }
+      - { titulo: "3,2 MW", texto: instalados en la provincia }
+      - { titulo: "48 h", texto: para tener tu estudio }
+      - { titulo: "10 años", texto: de garantía de instalación }
+
+  trabajos:
+    activa: true
+    antetitulo: Trabajos hechos
+    titulo: Instalaciones que ya están ahorrando
+    texto: "Algunos de los últimos tejados en los que hemos trabajado."
+    trabajos:
+      - { titulo: Casa unifamiliar con batería, lugar: Alpicat, potencia: "6,5 kWp", texto: "Catorce placas en tejado a dos aguas y batería para la noche.", imagen: /fotos/trabajo-vivienda.jpg }
+      - { titulo: Nave de fruta con cámara frigorífica, lugar: Alcarràs, potencia: "80 kWp", texto: "La cámara funciona casi todo el día con energía propia.", imagen: /fotos/trabajo-nave.jpg }
+      - { titulo: Bombeo solar para riego, lugar: Seròs, potencia: "15 kWp", texto: "Placas en suelo junto a la balsa para regar los frutales.", imagen: /fotos/trabajo-riego.jpg }
+      - { titulo: Granja con autoconsumo, lugar: Almacelles, potencia: "40 kWp", texto: "Ventilación y luz de la granja con energía del tejado.", imagen: /fotos/trabajo-granja.jpg }
+      - { titulo: Aerotermia en casa de pueblo, lugar: Torrefarrera, potencia: "", texto: "Fuera la caldera de gasóleo: suelo radiante y agua caliente con bomba de calor.", imagen: /fotos/trabajo-aerotermia.jpg }
+      - { titulo: Pérgola solar y cargador, lugar: Lleida, potencia: "4 kWp", texto: "Pérgola con placas sobre el aparcamiento y punto de carga para el coche.", imagen: /fotos/trabajo-pergola.jpg }
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen quienes ya tienen placas
+    testimonios:
+      - { texto: "Nos explicaron la factura mejor que la propia compañía. En dos días teníamos las placas puestas y el papeleo lo hicieron ellos.", autor: Montse y Jordi, nota: "Vivienda con batería, Alpicat" }
+      - { texto: "La cámara frigorífica era lo que más gastaba. Ahora en verano casi no compramos luz de día.", autor: Ramon P., nota: "Nave de fruta, Alcarràs" }
+      - { texto: "Cambiamos el gasóleo por aerotermia y la casa está más caliente que nunca. Muy serios con las fechas.", autor: Pilar S., nota: "Aerotermia, Torrefarrera" }
+
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que nos preguntan antes de poner placas
+    preguntas:
+      - { pregunta: "¿Cuánto se ahorra con placas solares?", respuesta: "Depende de tu consumo y de a qué hora gastas la luz. En el estudio gratis lo calculamos con tu factura real y te damos el ahorro aproximado por escrito." }
+      - { pregunta: "¿Necesito batería?", respuesta: "No siempre. Si gastas mucho de noche, la batería compensa; si gastas sobre todo de día, con la compensación de excedentes suele bastar. Te lo decimos en el estudio." }
+      - { pregunta: "¿Hace falta permiso del ayuntamiento?", respuesta: "Sí, normalmente una comunicación o licencia de obra. La pedimos nosotros, junto con el boletín y el alta en la compañía." }
+      - { pregunta: "¿Qué pasa los días nublados?", respuesta: "Las placas siguen produciendo, aunque menos. Lo que no cubren las placas lo tomas de la red como siempre: nunca te quedas sin luz." }
+      - { pregunta: "¿Cuánto duran las placas?", respuesta: "Las placas tienen una vida útil de décadas y el inversor se revisa en cada mantenimiento. Todo va con garantía por escrito." }
+      - { pregunta: "¿Hacéis instalaciones en comunidades de vecinos?", respuesta: "Sí. Preparamos el autoconsumo compartido y explicamos el reparto en la junta de vecinos." }
+
+  presupuesto:
+    activa: true
+    antetitulo: Estudio gratis
+    titulo: Calcula lo que puedes ahorrar
+    texto: "Déjanos tus datos y te llamamos. Si tienes a mano la factura de la luz, mejor."
+    nota: "Sin compromiso. Te contestamos en 48 horas."
+    boton_formulario: Quiero mi estudio
+    items:
+      - { titulo: Visita técnica gratis, texto: "Vamos a ver el tejado y el cuadro eléctrico.", icono: casa }
+      - { titulo: Precio cerrado, texto: "Con placas, inversor, montaje y legalización.", icono: euro }
+      - { titulo: Un solo responsable, texto: "Te atiende la misma persona de principio a fin.", icono: usuarios }
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Llámanos o pásate por la nave
+    texto: "Te atendemos por teléfono, WhatsApp o en persona en el polígono El Segre."
+    imagen: /fotos/contacto.jpg

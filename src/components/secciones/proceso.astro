@@ -1,0 +1,60 @@
+---
+// Proceso: banda amarilla sol a todo el ancho con los pasos (`items: [{titulo, texto, icono}]`) en una línea
+// que recorre la pantalla (horizontal desde 900 px, vertical en móvil), cada paso en un disco verde noche.
+import { seccion } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+const columnas = Math.min(Math.max(items.length, 1), 5);
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="seccion banda-sol proceso">
+      <div class="contenedor">
+        <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+        {items.length > 0 && (
+          <ol class="pasos" style={`--cols:${columnas}`}>
+            {items.map((it, i) => (
+              <li class="paso">
+                <span class="paso-disco" aria-hidden="true">
+                  <Icono nombre={it.icono || 'check'} tam={28} />
+                </span>
+                <div class="paso-cuerpo">
+                  <p class="paso-numero">{String(i + 1).padStart(2, '0')}</p>
+                  <h3 class="text-[1.4rem] md:text-[1.6rem]">{it.titulo}</h3>
+                  {it.texto && <p class="mt-2.5 max-w-[26rem] opacity-85">{it.texto}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+        {s.cta && (
+          <p class="mt-12">
+            <a class="btn" href={s.cta.url}>{s.cta.texto}</a>
+          </p>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .proceso { position: relative; overflow: hidden; }
+  .proceso::after { content: ""; position: absolute; width: 34rem; aspect-ratio: 1; right: -12rem; top: -14rem; border-radius: 50%; background: color-mix(in srgb, var(--c-fondo) 22%, transparent); pointer-events: none; }
+  .proceso > :global(.contenedor) { position: relative; z-index: 1; }
+  .pasos { display: grid; gap: 0; }
+  .paso { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; padding-bottom: 2.5rem; }
+  .paso:last-child { padding-bottom: 0; }
+  .paso::before { content: ""; position: absolute; left: 2rem; top: 4rem; bottom: 0; width: 2px; transform: translateX(-1px); background: currentColor; opacity: .35; }
+  .paso:last-child::before { display: none; }
+  .paso-disco { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--noche); color: var(--c-acento); box-shadow: 0 0 0 .5rem color-mix(in srgb, var(--noche) 14%, transparent); }
+  .paso-numero { font-family: var(--fuente-titulos); font-weight: 800; font-size: .85rem; letter-spacing: .16em; opacity: .7; margin-bottom: .35rem; padding-top: .3rem; }
+  @media (min-width: 900px) {
+    .pasos { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 2rem; }
+    .paso { grid-template-columns: 1fr; padding-bottom: 0; gap: 1.75rem; }
+    .paso::before { left: 4.75rem; right: -2rem; top: 2rem; bottom: auto; width: auto; height: 2px; transform: translateY(-1px); }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+// Subvenciones: fila partida a sangre. A la izquierda, `imagen` que toca el borde de la ventana; a la derecha,
+// banda menta con titular, `items: [{titulo, texto}]` como lista con marcas de verificación, `nota` (aviso de que
+// las ayudas cambian) y `cta`. Sin imagen, la banda menta ocupa todo el ancho con la lista en dos columnas.
+import { seccion } from '../../data/site';
+import { altSeccion } from '../../lib/seo';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const items = s ? s.items.filter((it) => it && it.titulo) : [];
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class:list={['banda-menta', s.imagen ? 'partida' : 'seccion']}>
+      {s.imagen && (
+        <div class="partida-foto">
+          <Imagen src={s.imagen} alt={altSeccion(s)} ancho={1200} alto={1000} />
+        </div>
+      )}
+      <div class:list={[s.imagen ? 'partida-texto' : 'contenedor']}>
+        <div>
+          <Titular class="!mb-9" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {items.length > 0 && (
+            <ul class:list={['ayudas', { 'ayudas--dos': !s.imagen }]}>
+              {items.map((it) => (
+                <li class="ayuda">
+                  <span class="ayuda-marca" aria-hidden="true"><Icono nombre="check" tam={20} /></span>
+                  <div>
+                    <h3 class="text-[1.2rem]">{it.titulo}</h3>
+                    {it.texto && <p class="mt-1 opacity-80">{it.texto}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.nota && <p class="ayudas-nota"><Icono nombre="sol" tam={22} class="shrink-0" />{s.nota}</p>}
+          {s.cta && (
+            <p class="mt-9">
+              <a class="btn" href={s.cta.url}>
+                {s.cta.texto}
+                <Icono nombre="flecha" tam={20} class="flecha" />
+              </a>
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .ayudas { display: grid; gap: 0; border-top: 1px solid var(--linea); }
+  .ayudas--dos { column-gap: 3rem; }
+  @media (min-width: 900px) { .ayudas--dos { grid-template-columns: 1fr 1fr; } }
+  .ayuda { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--linea); }
+  .ayuda-marca { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--c-primario); color: var(--sobre-primario); }
+  .ayudas-nota { display: flex; gap: .75rem; align-items: flex-start; margin-top: 2rem; padding: 1rem 1.25rem; border-radius: 1rem; background: color-mix(in srgb, var(--c-acento) 30%, var(--c-fondo)); color: var(--c-texto); font-weight: 600; }
+</style>

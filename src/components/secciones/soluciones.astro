@@ -1,0 +1,58 @@
+---
+// Soluciones: banda verde noche con la rejilla de celdas. Titular partido con `cta` y, debajo, `soluciones:
+// [{titulo, texto, icono, precio}]` como un panel de celdas separadas por filetes (4 columnas en escritorio,
+// 2 en tableta, 1 en móvil). `precio` es opcional («desde 4.900 €», «Consultar»): vacío, no se pinta.
+// Sus títulos son también las opciones de «¿Qué te interesa?» del formulario de presupuesto.
+import { seccion } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const lista = s ? (s.soluciones.length ? s.soluciones : s.items).filter((it) => it && it.titulo) : [];
+const precio = (it: { precio?: unknown }) => (typeof it.precio === 'string' ? it.precio.trim() : '');
+---
+
+{
+  s && (
+    <section id={Astro.props.id} class="seccion banda-noche celdas">
+      <div class="contenedor">
+        <Titular partido antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto}>
+          {s.cta && (
+            <a class="btn" href={s.cta.url}>
+              {s.cta.texto}
+              <Icono nombre="flecha" tam={20} class="flecha" />
+            </a>
+          )}
+        </Titular>
+        {lista.length > 0 && (
+          <ul class="celdas-panel">
+            {lista.map((it) => (
+              <li class="celda">
+                <h3 class="celda-titulo">
+                  <Icono nombre={it.icono || 'panel'} tam={40} class="celda-icono" />
+                  {it.titulo}
+                </h3>
+                {it.texto && <p class="mt-2.5 text-[1rem] leading-relaxed opacity-80 md:mt-3">{it.texto}</p>}
+                {precio(it) && <p class="celda-precio">{precio(it)}</p>}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .celdas-panel { display: grid; gap: 1px; background: color-mix(in srgb, currentColor 20%, transparent); border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: 1.25rem; overflow: hidden; }
+  @media (min-width: 640px) { .celdas-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .celdas-panel { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .celda-titulo { display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; }
+  @media (min-width: 768px) { .celda-titulo { flex-direction: column; align-items: flex-start; gap: 1.75rem; font-size: 1.55rem; } }
+  .celda { display: flex; flex-direction: column; align-items: flex-start; padding: 1.5rem 1.25rem 1.6rem; background: var(--noche); transition: background-color .2s ease; min-width: 0; }
+  .celda:hover { background: color-mix(in srgb, var(--noche) 88%, var(--c-acento)); }
+  @media (min-width: 768px) { .celda { padding: 2.5rem 2rem 2.75rem; min-height: 19rem; } }
+  .celda :global(.celda-icono) { color: var(--c-acento); flex-shrink: 0; }
+  .celda p:not(.celda-precio) { flex: 1; }
+  .celda-precio { margin-top: 1.1rem; display: inline-flex; padding: .35rem .9rem; border-radius: 999px; font-weight: 800; font-size: .95rem; background: var(--c-acento); color: var(--sobre-acento); }
+</style>

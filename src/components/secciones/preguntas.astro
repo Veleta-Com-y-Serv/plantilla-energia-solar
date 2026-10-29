@@ -1,0 +1,58 @@
+---
+// Preguntas frecuentes: banda clara partida. A la izquierda (fija al bajar, desde 1024 px) el titular y el teléfono;
+// a la derecha, acordeón nativo <details> con filetes y un «+» en un sol que gira al abrirse. Sin JavaScript.
+// Campos: `preguntas[]` (pregunta, respuesta). Sin preguntas no se pinta. Diseño para apartados nuevos (`tipo: preguntas`).
+import { seccion, site, tel } from '../../data/site';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const preguntas = s ? s.preguntas.filter((p) => p && p.pregunta) : [];
+const telefono = site.contacto.telefono;
+---
+
+{
+  s && preguntas.length > 0 && (
+    <section id={Astro.props.id} class="seccion banda-clara">
+      <div class="contenedor faq-rejilla">
+        <div class="faq-lado">
+          <Titular class="!mb-6" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+          {telefono && (
+            <a class="faq-tel" href={tel(telefono)}>
+              <span class="disco disco--pequeno"><Icono nombre="telefono" tam={18} /></span>
+              {telefono}
+            </a>
+          )}
+        </div>
+        <div class="faq-lista">
+          {preguntas.map((p) => (
+            <details class="faq">
+              <summary>
+                <span>{p.pregunta}</span>
+                <span class="faq-signo" aria-hidden="true">+</span>
+              </summary>
+              {p.respuesta && <p class="faq-respuesta">{p.respuesta}</p>}
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .faq-rejilla { display: grid; gap: 2.5rem; }
+  @media (min-width: 1024px) {
+    .faq-rejilla { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); gap: 5rem; align-items: start; }
+    .faq-lado { position: sticky; top: calc(var(--alto-cabecera) + 2rem); }
+  }
+  .faq-tel { display: inline-flex; align-items: center; gap: .9rem; font-family: var(--fuente-titulos); font-weight: 800; font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -0.03em; text-decoration: none; color: var(--c-primario); }
+  .faq-lista { border-top: 1px solid var(--linea); }
+  .faq { border-bottom: 1px solid var(--linea); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; padding: 1.35rem 0; min-height: 3rem; font-family: var(--fuente-titulos); font-weight: 700; font-size: clamp(1.1rem, 1.8vw, 1.35rem); letter-spacing: -0.02em; line-height: 1.25; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover { color: var(--c-primario); }
+  .faq-signo { display: grid; place-items: center; flex-shrink: 0; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: var(--menta); color: var(--c-primario); font-size: 1.6rem; font-weight: 500; line-height: 1; transition: transform .2s ease, background-color .2s ease; }
+  .faq[open] .faq-signo { transform: rotate(45deg); background: var(--c-acento); color: var(--sobre-acento); }
+  .faq-respuesta { padding: 0 3.5rem 1.6rem 0; font-size: 1.05rem; opacity: .82; max-width: 46rem; }
+</style>
