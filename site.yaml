@@ -68,13 +68,67 @@ secciones:
     texto: "Lo dimensionamos con tus consumos reales. Ni placas de más ni de menos."
     cta: { texto: Pide tu estudio, url: "/#presupuesto" }
     soluciones:
-      - { titulo: Autoconsumo en vivienda, texto: "Placas en tejado o pérgola para casas y adosados, con compensación de excedentes.", icono: panel, precio: "desde 4.900 €" }
-      - { titulo: Baterías, texto: "Guarda la energía del mediodía y úsala por la noche.", icono: bateria, precio: "desde 3.200 €" }
-      - { titulo: Naves y empresas, texto: "Instalaciones para almacenes, talleres y cámaras frigoríficas.", icono: fabrica, precio: "Consultar" }
-      - { titulo: Granjas y riego, texto: "Bombeo solar y autoconsumo para granjas, balsas y fincas de frutal.", icono: gota, precio: "" }
-      - { titulo: Aerotermia, texto: "Calefacción y agua caliente con bomba de calor. Combina perfecta con las placas.", icono: ventilador, precio: "desde 7.500 €" }
+      - titulo: Autoconsumo en vivienda
+        texto: "Placas en tejado o pérgola para casas y adosados, con compensación de excedentes."
+        icono: panel
+        precio: "desde 4.900 €"
+        detalle: |
+          Pensado para casas unifamiliares, adosados y chalés con tejado libre de sombras. Empezamos mirando tu factura de la luz y cómo vives la casa: a qué horas se consume más, si hay aire acondicionado, cocina de inducción o coche eléctrico. Con eso dimensionamos las placas para que cubran lo que de verdad gastas, sin pagar de más por potencia que no vas a aprovechar.
+
+          Nos encargamos del proyecto, del boletín, de la comunicación al ayuntamiento y del alta de excedentes con tu compañía. La instalación se hace en el tejado o en una pérgola, con cableado cuidado y un inversor accesible para que puedas ver la producción desde el móvil.
+
+          Los excedentes que no consumes en el momento se compensan en la factura. Al terminar te explicamos cómo leer la producción, qué esperar en invierno y en verano y a quién llamar si algo no cuadra. Se puede ampliar más adelante con una batería sin rehacer la instalación.
+      - titulo: Baterías
+        texto: "Guarda la energía del mediodía y úsala por la noche."
+        icono: bateria
+        precio: "desde 3.200 €"
+        detalle: |
+          La batería guarda la energía que las placas producen a mediodía y no gastas, para que la uses por la tarde y por la noche. Tiene sentido sobre todo en casas donde se consume más cuando ya no hay sol: familias que trabajan fuera, calefacción eléctrica, cocina por la noche o carga del coche al volver.
+
+          Antes de recomendarla miramos tus consumos reales. Si gastas casi todo de día, te decimos con franqueza que no hace falta y que la compensación de excedentes ya cumple. Si compensa, elegimos la capacidad justa y la integramos con tu inversor, ya sea en una instalación nueva o en unas placas que ya tienes.
+
+          La colocamos en el garaje, el trastero o una pared interior, con las protecciones eléctricas que exige la normativa. Podrás ver en la aplicación cuánta energía guardas y cuánta tomas de la red, y si hay un corte de suministro, las instalaciones preparadas para ello pueden seguir dando servicio en una parte de la casa.
+      - titulo: Naves y empresas
+        texto: "Instalaciones para almacenes, talleres y cámaras frigoríficas."
+        icono: fabrica
+        precio: "Consultar"
+        detalle: |
+          Para almacenes, talleres, naves agrícolas y cámaras frigoríficas, donde el consumo es alto y casi siempre coincide con las horas de sol. Ahí el autoconsumo se nota más: cada kilovatio que produces en tu cubierta es uno que no compras a la compañía en horario laboral.
+
+          Hacemos una visita técnica, revisamos la cubierta, el estado del cuadro eléctrico y la curva de consumo que te facilita tu distribuidora. Con esos datos preparamos una propuesta por escrito con la producción prevista y el ahorro aproximado, para que puedas decidir con números delante y compararla con otras ofertas.
+
+          La obra se planifica para no parar tu actividad: trabajamos por fases, con medios de elevación y líneas de vida cuando hace falta. Nos ocupamos de la ingeniería, de los permisos y de la legalización, y dejamos un plan de mantenimiento para limpiar las placas y revisar los inversores cada año.
+      - titulo: Granjas y riego
+        texto: "Bombeo solar y autoconsumo para granjas, balsas y fincas de frutal."
+        icono: gota
+        precio: ""
+        detalle: |
+          Las granjas y las fincas de frutal gastan mucha energía justo cuando más sol hay: ventilación, bombeo de agua, cámaras, ordeño o riego. Eso las convierte en un buen caso para el autoconsumo, bien con placas en la cubierta de la nave o bien en el suelo, junto a la balsa o al pozo.
+
+          En el bombeo solar conectamos las placas a un variador que arranca la bomba cuando hay sol suficiente, sin depender de la red ni de un grupo electrógeno. Se puede combinar con la red eléctrica para que el riego no se pare en un día nublado, y se ajusta a los turnos de agua de la comunidad de regantes.
+
+          Antes de empezar visitamos la explotación, vemos el punto de suministro, el pozo o la balsa y calculamos la potencia necesaria para tus cultivos o tu ganado. Tramitamos los permisos que correspondan según el tipo de terreno y te explicamos qué ayudas del sector agrario puedes consultar en cada convocatoria.
+      - titulo: Aerotermia
+        texto: "Calefacción y agua caliente con bomba de calor. Combina perfecta con las placas."
+        icono: ventilador
+        precio: "desde 7.500 €"
+        detalle: |
+          La aerotermia calienta la casa y el agua sanitaria con una bomba de calor que extrae energía del aire exterior. Gasta mucha menos electricidad que una caldera eléctrica y sustituye sin humos al gasóleo o al butano, que es lo que todavía se usa en muchas casas de pueblo.
+
+          Revisamos la vivienda: el aislamiento, los radiadores o el suelo radiante, el espacio disponible para la unidad exterior y el depósito. Con eso elegimos el equipo adecuado y te decimos si conviene cambiar algún radiador para que la casa llegue a temperatura con la bomba funcionando de manera eficiente.
+
+          Combinada con placas solares, buena parte de lo que gasta la bomba lo produces tú en el tejado. Nos ocupamos de retirar la caldera vieja, de la instalación hidráulica y eléctrica y de la puesta en marcha. Te enseñamos a programar horarios y temperaturas y dejamos un servicio de revisión anual si lo quieres.
       - { titulo: Climatización, texto: "Aire acondicionado y bomba de calor por conductos o splits.", icono: copo, precio: "desde 1.100 €" }
-      - { titulo: Cargador de coche, texto: "Punto de carga en tu garaje, conectado a tus placas.", icono: coche, precio: "desde 890 €" }
+      - titulo: Cargador de coche
+        texto: "Punto de carga en tu garaje, conectado a tus placas."
+        icono: coche
+        precio: "desde 890 €"
+        detalle: |
+          Un punto de carga en tu garaje o en tu plaza de aparcamiento te permite cargar el coche eléctrico en casa, con más comodidad y a menor coste que en un punto público. Instalamos cargadores para viviendas unifamiliares, garajes comunitarios y aparcamientos de empresa.
+
+          Visitamos el lugar, vemos dónde está el cuadro, qué potencia tienes contratada y cuál es la mejor ruta para el cableado. Instalamos la línea con sus protecciones, el cargador y, si lo pides, un sistema de gestión de carga para que no se dispare el consumo de la casa cuando enciendes varios aparatos a la vez.
+
+          Si ya tienes placas o las vas a poner, conectamos el cargador para que aproveche la energía que produces: el coche se carga con sol cuando estás en casa. En garajes de comunidad nos encargamos de la comunicación a la comunidad de vecinos y de la documentación técnica que suelen pedir.
       - { titulo: Mantenimiento, texto: "Limpieza de placas, revisión del inversor y seguimiento de la producción.", icono: herramienta, precio: "desde 120 €/año" }
 
   proceso:
@@ -107,15 +161,23 @@ secciones:
     antetitulo: Dónde instalamos
     titulo: Lleida y todo el Segrià
     texto: "También en el Pla d'Urgell, la Noguera y les Garrigues. Si tu pueblo no está, pregúntanos."
+    titulo_pagina: "Placas solares en {zona}"
+    texto_pagina: "En {zona} instalamos placas solares con {negocio}: estudio gratis, trámites y ayudas incluidos."
     imagen: /fotos/zonas.jpg
     items:
-      - { titulo: Lleida }
-      - { titulo: Alcarràs }
-      - { titulo: Torrefarrera }
-      - { titulo: Alpicat }
-      - { titulo: Almacelles }
+      - titulo: Lleida
+        texto: "Lleida es el centro de nuestro trabajo y donde más tejados hemos cubierto: casas en barrios y urbanizaciones, adosados y también naves en los polígonos de alrededor. Aquí la luz de la llanura juega a tu favor casi todo el año, y la comunicación al ayuntamiento y la tramitación de las bonificaciones locales las gestionamos nosotros de principio a fin. Si vives en la ciudad o en un pueblo cercano como Alpicat o Torrefarrera, te hacemos el estudio gratis con tu factura y una foto del tejado, y te decimos qué instalación tiene sentido. También instalamos cargadores de coche en garajes de la ciudad y mantenemos placas ya puestas por otros instaladores."
+      - titulo: Alcarràs
+        texto: "Alcarràs es tierra de fruta, y por eso aquí hacemos sobre todo instalaciones para naves, cámaras frigoríficas y explotaciones agrícolas, donde el consumo coincide con las horas de sol. Una cámara que trabaja de día es un caso casi ideal para el autoconsumo. También instalamos en casas del pueblo y en las fincas de los alrededores, con placas en tejado o en suelo según el espacio. Cubrimos igualmente Seròs, Almacelles y el resto de pueblos de la comarca. Visitamos la nave o la finca, revisamos el suministro y preparamos una propuesta por escrito con la producción prevista y los permisos que hay que pedir."
+      - titulo: Torrefarrera
+        texto: "Torrefarrera está a un paso de Lleida y combina casas de pueblo con urbanizaciones más recientes. Aquí hacemos autoconsumo en viviendas, baterías y, cada vez más, aerotermia para dejar atrás las calderas de gasóleo y el butano. Una casa antigua del casco puede necesitar revisar radiadores y aislamiento antes de cambiar de sistema, y eso lo miramos contigo en la visita. Si el tejado es adecuado, preparamos las placas y la bomba de calor para que trabajen juntas. Trabajamos también en Alpicat y en la propia ciudad de Lleida, de modo que el servicio de mantenimiento te queda siempre cerca."
+      - titulo: Alpicat
+        texto: "Alpicat es un pueblo muy próximo a Lleida con muchas casas unifamiliares y adosados, un tipo de vivienda ideal para el autoconsumo. Los tejados suelen tener buena orientación y poca sombra, y eso se nota en la producción. Aquí instalamos placas con o sin batería, cargadores de coche en el garaje y aerotermia para sustituir calderas antiguas. Preparamos todo el papeleo: proyecto, comunicación al ayuntamiento y alta de excedentes. También llegamos a Torrefarrera y a Lleida, así que la revisión anual de las placas y el seguimiento de la producción te lo hace un equipo de la zona."
+      - titulo: Almacelles
+        texto: "Almacelles tiene muchas granjas y naves agrícolas, y es donde más instalaciones de autoconsumo hacemos para ventilación, iluminación y agua de las explotaciones. Cuando una granja gasta de día, las placas del tejado se notan enseguida en la factura. También ponemos placas en viviendas y adosados del pueblo, aerotermia en casas que aún usan gasóleo y baterías para quien consume por la noche. Llegamos igual a Alguaire, Seròs y Alcarràs. Hacemos una visita sin compromiso, miramos la cubierta y tu factura y te damos por escrito lo que se puede hacer y lo que no compensa."
       - { titulo: Alguaire }
-      - { titulo: Seròs }
+      - titulo: Seròs
+        texto: "En Seròs y en las fincas que rodean el pueblo, el riego es lo que más energía pide. Por eso hacemos bombeo solar junto a balsas y pozos, con placas en el suelo conectadas a un variador que arranca la bomba cuando hay sol, y en muchos casos combinado con la red para no depender del tiempo. También instalamos autoconsumo en viviendas, almacenes y granjas de la zona. Trabajamos con frecuencia en los pueblos vecinos de Alcarràs y Almacelles. Nos acercamos a ver el terreno, hablamos con quien lleva la finca y te explicamos qué ayudas del sector agrario puedes consultar en cada convocatoria antes de decidir."
       - { titulo: Mollerussa }
       - { titulo: Balaguer }
       - { titulo: "Bell-lloc d'Urgell" }

@@ -2,10 +2,12 @@
 // Soluciones: banda verde noche con la rejilla de celdas. Titular partido con `cta` y, debajo, `soluciones:
 // [{titulo, texto, icono, precio}]` como un panel de celdas separadas por filetes (4 columnas en escritorio,
 // 2 en tableta, 1 en móvil). `precio` es opcional («desde 4.900 €», «Consultar»): vacío, no se pinta.
-// Sus títulos son también las opciones de «¿Qué te interesa?» del formulario de presupuesto.
+// Las soluciones con `detalle` tienen página propia (/soluciones/<slug>/): el título es un enlace y la celda
+// entera es clicable. Sus títulos son también las opciones de «¿Qué te interesa?» del formulario de presupuesto.
 import { seccion } from '../../data/site';
 import Titular from '../ui/Titular.astro';
 import Icono from '../ui/Icono.astro';
+import { enlaceDe } from '../../lib/paginas';
 interface Props { id: string }
 const s = seccion(Astro.props.id);
 const lista = s ? (s.soluciones.length ? s.soluciones : s.items).filter((it) => it && it.titulo) : [];
@@ -30,10 +32,11 @@ const precio = (it: { precio?: unknown }) => (typeof it.precio === 'string' ? it
               <li class="celda">
                 <h3 class="celda-titulo">
                   <Icono nombre={it.icono || 'panel'} tam={40} class="celda-icono" />
-                  {it.titulo}
+                  {enlaceDe(it) ? <a href={enlaceDe(it)} class="celda-enlace">{it.titulo}</a> : it.titulo}
                 </h3>
                 {it.texto && <p class="mt-2.5 text-[1rem] leading-relaxed opacity-80 md:mt-3">{it.texto}</p>}
                 {precio(it) && <p class="celda-precio">{precio(it)}</p>}
+                {enlaceDe(it) && <span class="celda-ver" aria-hidden="true">Ver más <Icono nombre="flecha" tam={16} /></span>}
               </li>
             ))}
           </ul>
@@ -47,6 +50,12 @@ const precio = (it: { precio?: unknown }) => (typeof it.precio === 'string' ? it
   .celdas-panel { display: grid; gap: 1px; background: color-mix(in srgb, currentColor 20%, transparent); border: 1px solid color-mix(in srgb, currentColor 20%, transparent); border-radius: 1.25rem; overflow: hidden; }
   @media (min-width: 640px) { .celdas-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1100px) { .celdas-panel { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .celda { position: relative; }
+  .celda-enlace { text-decoration: none; color: inherit; }
+  .celda-enlace::after { content: ""; position: absolute; inset: 0; }
+  .celda-enlace:focus-visible { outline: none; }
+  .celda:has(.celda-enlace:focus-visible) { outline: 3px solid var(--c-acento); outline-offset: -3px; }
+  .celda-ver { margin-top: 1rem; display: inline-flex; align-items: center; gap: .3rem; font-weight: 800; color: var(--c-acento); }
   .celda-titulo { display: flex; align-items: center; gap: 1rem; font-size: 1.3rem; }
   @media (min-width: 768px) { .celda-titulo { flex-direction: column; align-items: flex-start; gap: 1.75rem; font-size: 1.55rem; } }
   .celda { display: flex; flex-direction: column; align-items: flex-start; padding: 1.5rem 1.25rem 1.6rem; background: var(--noche); transition: background-color .2s ease; min-width: 0; }

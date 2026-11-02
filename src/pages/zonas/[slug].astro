@@ -1,0 +1,214 @@
+---
+// Página de una zona con `texto` (src/lib/paginas.ts, sección `zonas`): /zonas/<slug>/.
+// Banda verde noche con celdas, migas y «Placas solares en <zona>» (`titulo_pagina` con {zona}); el texto de la
+// zona junto a la foto con marcador de sol, en banda blanca; las soluciones en banda menta (con enlace las que
+// tienen ficha); los trabajos cuyo `lugar` nombra la zona; hasta tres opiniones; banda amarilla de estudio gratis
+// y las otras zonas con página como píldoras.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import Icono from '../../components/ui/Icono.astro';
+import Titular from '../../components/ui/Titular.astro';
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { enlaceDe, introZona, resumen, tituloZona, trabajosEn, zonasConPagina } from '../../lib/paginas';
+import type { Zona } from '../../lib/paginas';
+import { jsonLdMigas, jsonLdZona, urlBase } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return zonasConPagina().map((z) => ({ params: { slug: z.slug }, props: { z } }));
+}
+
+interface Props { z: Zona }
+const { z } = Astro.props;
+const base = urlBase(Astro.site);
+const titulo = tituloZona(z);
+const intro = introZona(z);
+const nombreSeccion = String(z.seccion.antetitulo || z.seccion.titulo || 'Zonas').trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: `/#${z.idSeccion}` },
+  { nombre: z.nombre, ruta: z.url },
+];
+const c = site.contacto;
+const foto = z.imagen || String(z.seccion.imagen || '');
+const soluciones = seccion('soluciones');
+const lista = soluciones ? (soluciones.soluciones.length ? soluciones.soluciones : soluciones.items).filter((it) => it?.titulo) : [];
+const trabajos = trabajosEn(z.nombre).slice(0, 4);
+const opinionesSec = seccion('opiniones');
+const todas = opinionesSec ? opinionesSec.testimonios.filter((t) => t?.texto) : [];
+const nombra = (t: { texto: string; nota?: string }) => `${t.texto} ${t.nota ?? ''}`.toLowerCase().includes(z.nombre.toLowerCase());
+const opiniones = [...todas.filter(nombra), ...todas.filter((t) => !nombra(t))].slice(0, 3);
+const estudio = seccion('presupuesto') ? '/#presupuesto' : site.boton_cabecera?.url || '/#contacto';
+const textoEstudio = 'Pide tu estudio gratis';
+const wa = whatsapp(c.whatsapp, `Hola, quiero un estudio solar en ${z.nombre}`);
+const otras = zonasConPagina().filter((x) => x !== z);
+---
+
+<Base titulo={titulo} descripcion={resumen(z.texto[0] ?? intro)} imagen={foto} ld={[jsonLdMigas(base, migas), jsonLdZona(base, z)]}>
+  <section class="banda-noche celdas zona-cabeza">
+    <div class="contenedor">
+      <nav aria-label="Migas de pan" class="migas">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <div class="zona-hero">
+        <p class="antetitulo"><Icono nombre="mapa" tam={16} /> {z.nombre}</p>
+        <h1 class="titulo-seccion zona-titulo">{titulo}</h1>
+        {intro && <p class="titular-texto">{intro}</p>}
+        <div class="zona-botones">
+          <a class="btn" href={estudio}>{textoEstudio} <Icono nombre="flecha" tam={20} /></a>
+          {c.telefono && <a class="btn-sec" href={tel(c.telefono)}><Icono nombre="telefono" tam={18} /> {c.telefono}</a>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda-clara seccion">
+    <div class:list={['contenedor zona-cuerpo', { 'zona-cuerpo--foto': foto }]}>
+      <div class="texto-largo zona-texto">
+        {z.texto.map((p) => <p>{p}</p>)}
+      </div>
+      {foto && (
+        <div class="zona-foto">
+          <Imagen src={foto} alt={titulo} ancho={1000} alto={750} class="h-full w-full object-cover" />
+          <span class="zona-pin" aria-hidden="true"><Icono nombre="mapa" tam={30} /></span>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {lista.length > 0 && (
+    <section class="banda-menta seccion">
+      <div class="contenedor">
+        <Titular antetitulo={soluciones?.antetitulo} titulo={`Qué instalamos en ${z.nombre}`} />
+        <ul class="zona-soluciones">
+          {lista.map((it) => (
+            <li class="zona-solucion">
+              <span class="disco"><Icono nombre={it.icono || 'panel'} tam={26} /></span>
+              <h3>{enlaceDe(it) ? <a href={enlaceDe(it)} class="zona-enlace">{it.titulo}</a> : it.titulo}</h3>
+              {it.texto && <p>{it.texto}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {trabajos.length > 0 && (
+    <section class="banda-clara seccion">
+      <div class="contenedor">
+        <Titular antetitulo="Trabajos hechos" titulo={`Instalaciones en ${z.nombre}`} />
+        <ul class="zona-trabajos">
+          {trabajos.map((t) => (
+            <li class="zona-trabajo">
+              {(t.imagen || t.imagen_antes) && <Imagen src={t.imagen || t.imagen_antes} alt={t.titulo} ancho={1200} alto={675} class="aspect-[16/9] w-full object-cover" />}
+              <div class="zona-trabajo-texto">
+                <h3>{t.titulo}</h3>
+                {t.lugar && <p class="zona-lugar"><Icono nombre="mapa" tam={16} />{t.lugar}{t.potencia ? ` · ${t.potencia}` : ''}</p>}
+                {t.texto && <p>{t.texto}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {opiniones.length > 0 && (
+    <section class="banda-menta seccion">
+      <div class="contenedor">
+        <Titular antetitulo={opinionesSec?.antetitulo} titulo={opinionesSec?.titulo} />
+        <ul class="zona-opiniones">
+          {opiniones.map((t) => (
+            <li>
+              <blockquote>{t.texto}</blockquote>
+              <p class="zona-autor">{t.autor}</p>
+              {t.nota && <p class="zona-nota">{t.nota}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="banda-sol seccion">
+    <div class="contenedor zona-cta">
+      <div>
+        <p class="antetitulo">Estudio gratis</p>
+        <h2 class="titulo-seccion">¿Tu tejado está en {z.nombre}?</h2>
+        <p class="titular-texto">Con tu factura de la luz calculamos la instalación y el ahorro, sin compromiso.</p>
+      </div>
+      <div class="zona-botones">
+        <a class="btn" href={estudio}>{textoEstudio}</a>
+        {wa && <a class="btn-sec" href={wa} target="_blank" rel="noopener"><Icono nombre="whatsapp" tam={18} /> WhatsApp</a>}
+      </div>
+    </div>
+  </section>
+
+  {otras.length > 0 && (
+    <section class="banda-clara seccion">
+      <div class="contenedor">
+        <h2 class="text-2xl">También instalamos en</h2>
+        <ul class="mt-5 flex flex-wrap gap-2.5">
+          {otras.map((o) => <li><a class="zona-otra" href={o.url}><Icono nombre="mapa" tam={16} /> {o.nombre}</a></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .zona-cabeza { padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 6vw, 5.5rem); }
+  .migas ol { display: flex; flex-wrap: wrap; gap: .25rem .5rem; font-size: .85rem; font-weight: 700; }
+  .migas li { display: inline-flex; align-items: center; gap: .5rem; min-width: 0; }
+  .migas li + li::before { content: "›"; color: var(--c-acento); }
+  .migas a { text-decoration: none; min-height: 2.75rem; display: inline-flex; align-items: center; opacity: .85; }
+  .migas a:hover { text-decoration: underline; opacity: 1; }
+  .migas [aria-current] { opacity: .7; }
+  .zona-hero { max-width: 56rem; margin-top: clamp(1rem, 3vw, 2.5rem); }
+  .zona-titulo { font-size: clamp(2.5rem, 8vw, 5.5rem); overflow-wrap: anywhere; }
+  .zona-botones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .zona-botones a { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
+  .zona-cuerpo { display: grid; gap: 2.5rem; align-items: center; }
+  .zona-texto { font-size: 1.15rem; max-width: 44rem; }
+  .zona-texto p:first-child { margin-top: 0; font-size: 1.25rem; font-weight: 600; }
+  .zona-texto p + p { margin-top: 1.1rem; }
+  .zona-foto { position: relative; aspect-ratio: 4 / 3; border-radius: 1.25rem; overflow: hidden; background: var(--noche); }
+  .zona-pin { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 4.5rem; height: 4.5rem; transform: translate(-50%, -50%); border-radius: 50%; background: var(--c-acento); color: var(--sobre-acento); box-shadow: 0 0 0 .9rem color-mix(in srgb, var(--c-acento) 35%, transparent), 0 0 0 2rem color-mix(in srgb, var(--c-acento) 16%, transparent); }
+  .zona-soluciones { display: grid; gap: 1.5rem 2rem; }
+  .zona-solucion { position: relative; display: grid; grid-template-columns: auto 1fr; gap: .25rem 1rem; align-items: start; padding-top: 1.25rem; border-top: 2px solid var(--c-primario); }
+  .zona-solucion .disco { grid-row: span 2; width: 3rem; height: 3rem; }
+  .zona-solucion h3 { font-size: 1.25rem; align-self: center; }
+  .zona-solucion p { opacity: .8; grid-column: 2; }
+  .zona-enlace { text-decoration: none; }
+  .zona-enlace::after { content: ""; position: absolute; inset: 0; }
+  .zona-enlace:hover { text-decoration: underline; }
+  .zona-trabajos { display: grid; gap: 1.5rem; }
+  .zona-trabajo { border-radius: 1.25rem; overflow: hidden; border: 1px solid var(--linea); }
+  .zona-trabajo-texto { padding: 1.25rem 1.5rem 1.5rem; }
+  .zona-trabajo h3 { font-size: 1.35rem; }
+  .zona-lugar { display: flex; align-items: center; gap: .4rem; margin-top: .4rem; font-size: .85rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--c-primario); }
+  .zona-trabajo-texto p:last-child { margin-top: .75rem; opacity: .85; }
+  .zona-opiniones { display: grid; gap: 1.5rem; }
+  .zona-opiniones li { padding-top: 1.25rem; border-top: 2px solid var(--c-primario); }
+  .zona-opiniones blockquote { font-size: 1.1rem; line-height: 1.6; }
+  .zona-autor { margin-top: 1rem; font-weight: 800; }
+  .zona-nota { font-size: .9rem; opacity: .7; }
+  .zona-cta { display: grid; gap: 1.5rem; }
+  .zona-cta .zona-botones { margin-top: 0; }
+  .zona-otra { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.75rem; padding: .45rem 1.1rem; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--c-primario) 45%, transparent); font-weight: 700; text-decoration: none; }
+  .zona-otra:hover { background: var(--c-primario); color: var(--sobre-primario); border-color: var(--c-primario); }
+  @media (min-width: 768px) {
+    .zona-soluciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .zona-trabajos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .zona-opiniones { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) {
+    .zona-cuerpo--foto { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 5rem; }
+    .zona-soluciones { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .zona-cta { grid-template-columns: 1.4fr 1fr; align-items: center; }
+    .zona-cta .zona-botones { justify-content: flex-end; }
+  }
+</style>

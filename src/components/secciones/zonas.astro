@@ -1,11 +1,12 @@
 ---
-// Zonas: fila partida a sangre con la foto a la DERECHA (zigzag con `subvenciones`). Titular, `texto` (radio de
+// Zonas: las que tienen `texto` enlazan a su página (/zonas/<slug>/). Fila partida a sangre con la foto a la DERECHA (zigzag con `subvenciones`). Titular, `texto` (radio de
 // trabajo), `items: [{titulo}]` como píldoras (la primera, rellena) y `cta`. Sin imagen, banda clara a todo el ancho.
 import { seccion } from '../../data/site';
 import { altSeccion } from '../../lib/seo';
 import Titular from '../ui/Titular.astro';
 import Imagen from '../ui/Imagen.astro';
 import Icono from '../ui/Icono.astro';
+import { enlaceDe } from '../../lib/paginas';
 interface Props { id: string }
 const s = seccion(Astro.props.id);
 const items = s ? s.items.filter((it) => it && it.titulo) : [];
@@ -26,7 +27,7 @@ const items = s ? s.items.filter((it) => it && it.titulo) : [];
           {items.length > 0 && (
             <ul class="flex flex-wrap gap-2.5">
               {items.map((it) => (
-                <li class="zona">{it.titulo}</li>
+                <li class="zona">{enlaceDe(it) ? <a href={enlaceDe(it)} class="zona-enlace">{it.titulo}</a> : it.titulo}</li>
               ))}
             </ul>
           )}
@@ -43,6 +44,10 @@ const items = s ? s.items.filter((it) => it && it.titulo) : [];
 
 <style>
   .zona { display: inline-flex; align-items: center; min-height: 2.75rem; padding: .45rem 1.1rem; border-radius: 999px; border: 1.5px solid color-mix(in srgb, var(--c-primario) 45%, transparent); font-weight: 700; }
+  .zona { position: relative; }
+  .zona-enlace { text-decoration: none; color: inherit; }
+  .zona-enlace::after { content: ""; position: absolute; inset: 0; border-radius: 999px; }
+  .zona:has(.zona-enlace:focus-visible) { outline: 3px solid var(--c-primario); outline-offset: 3px; }
   .zona:first-child { background: var(--c-primario); color: var(--sobre-primario); border-color: var(--c-primario); }
   .zonas-pin { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 5rem; height: 5rem; transform: translate(-50%, -50%); border-radius: 50%; background: var(--c-acento); color: var(--sobre-acento); box-shadow: 0 0 0 1rem color-mix(in srgb, var(--c-acento) 35%, transparent), 0 0 0 2.25rem color-mix(in srgb, var(--c-acento) 16%, transparent); }
 </style>

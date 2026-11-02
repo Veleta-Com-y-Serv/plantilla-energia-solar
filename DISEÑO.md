@@ -59,3 +59,8 @@ que lee quien (persona o agente) rediseñe la plantilla.
 - **Qué no hacer**: tarjetas blancas flotando en una caja estrecha; mayúsculas pesadas y diagonales (son de
   `reformas-oficios`); porcentajes o importes de ayudas en los componentes (las ayudas cambian: van en
   `site.yaml` y sin cifras inventadas); precios o cifras fijos en los componentes; fotos de personas.
+
+## Páginas propias (fichas y zonas)
+Con la misma piel que la portada: cabecera y pie de la plantilla, migas (Inicio › Sección › Elemento), hero con la foto del
+elemento (sin foto, su icono), `detalle` en párrafos, tabla de datos, caja de contacto, galería (`imagenes`) y otros elementos
+de la misma lista; en las zonas, entrada, texto de la zona, servicios, trabajos del lugar, opiniones y contacto.
