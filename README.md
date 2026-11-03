@@ -7,6 +7,7 @@ Web limpia a todo el ancho para instaladores solares: soluciones, ayudas, trabaj
 - Campos propios: `hero.destacado` (sello del sol) y `hero.items` (garantías), `soluciones.soluciones[]` (`titulo, texto, icono, precio` opcional), `subvenciones.items[]` + `subvenciones.nota`, `trabajos.trabajos[]` (`titulo, lugar, potencia, texto, imagen`, `imagen_antes` opcional), `presupuesto.nota` y `presupuesto.boton_formulario`, `cifras.items` (no se pinta vacía).
 - Ejemplo: Solana Ponent, instaladores de placas solares, baterías y aerotermia en Lleida y el Segrià (negocio ficticio).
 - SEO de base incluido (`src/lib/seo.ts`): canónica, og:image, JSON-LD del negocio (con `areaServed` desde `zonas`) y de las preguntas frecuentes, `robots.txt`, `sitemap.xml` y `llms.txt`; `noindex` si `seo.indexable: false`.
+- Varias páginas (opcional, `paginas:` en la raíz de `site.yaml`): Inicio + una página por entrada (`{ ruta, titulo, secciones: "a; b" }`, hasta 6) con el menú hecho solo; reparto recomendado en `template.yaml → paginas`. Sin la clave, una sola página larga.
 - Contenido editable en `site.yaml`; metadatos y guion del asistente en `template.yaml`; reglas para el agente en `CLAUDE.md`; brief de diseño en `DISEÑO.md`; fotos a generar en `fotos.json`.
 
 ```
